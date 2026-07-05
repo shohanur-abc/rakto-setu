@@ -1,0 +1,36 @@
+info:
+  name: Export report as CSV
+  type: http
+  seq: 14
+http:
+  method: GET
+  url: '{{baseUrl}}/admin/reports/export'
+  params:
+  - name: from
+    value: '2026-01-01'
+    type: query
+    description: Start date
+  - name: to
+    value: '2026-12-31'
+    type: query
+    description: End date
+  - name: status
+    value: fulfilled
+    type: query
+    description: Request status filter
+  auth:
+    type: bearer
+    token: '{{token}}'
+  headers:
+  - name: Accept
+    value: application/json
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+runtime:
+  assertions:
+  - expression: res.status
+    operator: in
+    value: 200,201

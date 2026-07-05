@@ -1,0 +1,41 @@
+info:
+  name: Edit own blood request
+  type: http
+  seq: 6
+http:
+  method: PUT
+  url: '{{baseUrl}}/requests/:id'
+  params:
+  - name: id
+    value: '{{requestId}}'
+    type: path
+  auth:
+    type: bearer
+    token: '{{token}}'
+  body:
+    type: json
+    data: |-
+      {
+        "patientName": "Ayesha Khatun",
+        "patientAge": 42,
+        "unitsNeeded": 2,
+        "hospitalName": "Pabna General Hospital",
+        "urgency": "emergency",
+        "neededBy": "2026-08-15T10:00:00.000Z",
+        "notes": "Updated ward information."
+      }
+  headers:
+  - name: Accept
+    value: application/json
+  - name: Content-Type
+    value: application/json
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+runtime:
+  assertions:
+  - expression: res.status
+    operator: in
+    value: 200,201

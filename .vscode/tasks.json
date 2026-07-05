@@ -1,0 +1,104 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "pnpm: typecheck",
+      "type": "shell",
+      "command": "pnpm",
+      "args": [
+        "run",
+        "typecheck"
+      ],
+      "group": "build",
+      "problemMatcher": "$tsc"
+    },
+    {
+      "label": "pnpm: dev",
+      "type": "shell",
+      "command": "pnpm",
+      "args": [
+        "run",
+        "dev"
+      ],
+      "isBackground": true,
+      "problemMatcher": []
+    },
+    {
+      "label": "pnpm: build",
+      "type": "shell",
+      "command": "pnpm",
+      "args": [
+        "run",
+        "build"
+      ],
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "pnpm: lint",
+      "type": "shell",
+      "command": "pnpm",
+      "args": [
+        "run",
+        "lint"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "server: prisma generate",
+      "type": "shell",
+      "command": "pnpm",
+      "args": [
+        "exec",
+        "prisma",
+        "generate"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}/apps/server"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "server: test",
+      "type": "shell",
+      "command": "pnpm",
+      "args": [
+        "run",
+        "test"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}/apps/server"
+      },
+      "group": "test",
+      "problemMatcher": []
+    },
+    {
+      "label": "server: test:cov",
+      "type": "shell",
+      "command": "pnpm",
+      "args": [
+        "run",
+        "test:cov"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}/apps/server"
+      },
+      "group": "test",
+      "problemMatcher": []
+    },
+    {
+      "label": "server: dev",
+      "type": "shell",
+      "command": "pnpm",
+      "args": [
+        "run",
+        "dev"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}/apps/server"
+      },
+      "isBackground": true,
+      "problemMatcher": []
+    }
+  ]
+}

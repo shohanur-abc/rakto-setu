@@ -1,0 +1,39 @@
+info:
+  name: Create a blood request
+  type: http
+  seq: 3
+http:
+  method: POST
+  url: '{{baseUrl}}/requests'
+  auth:
+    type: bearer
+    token: '{{token}}'
+  body:
+    type: json
+    data: |-
+      {
+        "patientName": "Ayesha Khatun",
+        "patientAge": 42,
+        "bloodGroup": "B+",
+        "unitsNeeded": 1,
+        "hospitalName": "Pabna General Hospital",
+        "locationId": "f45f84c9-2685-4c17-bf6d-86de9879a33a",
+        "urgency": "urgent",
+        "neededBy": "2026-08-15T10:00:00.000Z",
+        "notes": "Doctor requested donor before surgery."
+      }
+  headers:
+  - name: Accept
+    value: application/json
+  - name: Content-Type
+    value: application/json
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+runtime:
+  assertions:
+  - expression: res.status
+    operator: in
+    value: 200,201

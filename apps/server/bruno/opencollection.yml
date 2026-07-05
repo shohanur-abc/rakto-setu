@@ -1,0 +1,9 @@
+info:
+  name: RaktoSetu API
+  version: 1.0.0
+  description: Community blood bank coordination API
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

@@ -1,0 +1,35 @@
+info:
+  name: Approve or reject donor verification
+  type: http
+  seq: 7
+http:
+  method: PATCH
+  url: '{{baseUrl}}/admin/donors/:id/verify'
+  params:
+  - name: id
+    value: '{{donorId}}'
+    type: path
+  auth:
+    type: bearer
+    token: '{{token}}'
+  body:
+    type: json
+    data: |-
+      {
+        "verification": "verified"
+      }
+  headers:
+  - name: Accept
+    value: application/json
+  - name: Content-Type
+    value: application/json
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+runtime:
+  assertions:
+  - expression: res.status
+    operator: in
+    value: 200,201

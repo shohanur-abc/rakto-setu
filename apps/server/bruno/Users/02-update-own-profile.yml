@@ -1,0 +1,35 @@
+info:
+  name: Update own profile
+  type: http
+  seq: 2
+http:
+  method: PUT
+  url: '{{baseUrl}}/users/profile'
+  auth:
+    type: bearer
+    token: '{{token}}'
+  body:
+    type: json
+    data: |-
+      {
+        "fullName": "Md Rahim Uddin",
+        "email": "rahim@example.com",
+        "bloodGroup": "O+",
+        "locationId": "f45f84c9-2685-4c17-bf6d-86de9879a33a",
+        "preferredLanguage": "bn"
+      }
+  headers:
+  - name: Accept
+    value: application/json
+  - name: Content-Type
+    value: application/json
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+runtime:
+  assertions:
+  - expression: res.status
+    operator: in
+    value: 200,201

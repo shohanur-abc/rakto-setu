@@ -1,0 +1,26 @@
+info:
+  name: Get availability summary by blood group
+  type: http
+  seq: 2
+http:
+  method: GET
+  url: '{{baseUrl}}/search/availability-summary'
+  params:
+  - name: locationId
+    value: '{{locationId}}'
+    type: query
+    description: Location filter
+  auth: none
+  headers:
+  - name: Accept
+    value: application/json
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+runtime:
+  assertions:
+  - expression: res.status
+    operator: in
+    value: 200,201

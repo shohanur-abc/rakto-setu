@@ -1,0 +1,31 @@
+info:
+  name: Invalidate current session
+  type: http
+  seq: 3
+http:
+  method: POST
+  url: '{{baseUrl}}/auth/logout'
+  auth:
+    type: bearer
+    token: '{{token}}'
+  body:
+    type: json
+    data: |-
+      {
+        "allSessions": false
+      }
+  headers:
+  - name: Accept
+    value: application/json
+  - name: Content-Type
+    value: application/json
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+runtime:
+  assertions:
+  - expression: res.status
+    operator: in
+    value: 200,201

@@ -1,0 +1,23 @@
+info:
+  name: Upload or replace profile photo
+  type: http
+  seq: 3
+http:
+  method: POST
+  url: '{{baseUrl}}/users/profile/avatar'
+  auth:
+    type: bearer
+    token: '{{token}}'
+  headers:
+  - name: Accept
+    value: application/json
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+runtime:
+  assertions:
+  - expression: res.status
+    operator: in
+    value: 200,201

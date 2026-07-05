@@ -1,0 +1,42 @@
+info:
+  name: Register a recipient account
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{baseUrl}}/auth/register"
+  headers:
+    - name: Accept
+      value: application/json
+    - name: Content-Type
+      value: application/json
+  body:
+    type: json
+    data: |-
+      {
+        "fullName": "Mujibur Rahman",
+        "phone": "+8801712345233",
+        "email": "mujib@example.com",
+        "password": "StrongPass123!",
+        "bloodGroup": "O+",
+        "preferredLanguage": "bn"
+      }
+
+runtime:
+  scripts:
+    - type: after-response
+      code: |-
+        if (res.body.sucsess) {
+          bru.setVar('user', res.body.data)
+        }
+  assertions:
+    - expression: res.status
+      operator: in
+      value: 200,201
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

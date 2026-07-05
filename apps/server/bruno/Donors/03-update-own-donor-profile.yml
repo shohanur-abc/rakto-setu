@@ -1,0 +1,33 @@
+info:
+  name: Update own donor profile
+  type: http
+  seq: 3
+http:
+  method: PUT
+  url: '{{baseUrl}}/donors/profile'
+  auth:
+    type: bearer
+    token: '{{token}}'
+  body:
+    type: json
+    data: |-
+      {
+        "bloodGroup": "A+",
+        "lastDonationDate": "2026-01-10",
+        "notes": "Avoid late-night calls"
+      }
+  headers:
+  - name: Accept
+    value: application/json
+  - name: Content-Type
+    value: application/json
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+runtime:
+  assertions:
+  - expression: res.status
+    operator: in
+    value: 200,201

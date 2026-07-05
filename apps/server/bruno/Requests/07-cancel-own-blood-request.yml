@@ -1,0 +1,27 @@
+info:
+  name: Cancel own blood request
+  type: http
+  seq: 7
+http:
+  method: POST
+  url: '{{baseUrl}}/requests/:id/cancel'
+  params:
+  - name: id
+    value: '{{requestId}}'
+    type: path
+  auth:
+    type: bearer
+    token: '{{token}}'
+  headers:
+  - name: Accept
+    value: application/json
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+runtime:
+  assertions:
+  - expression: res.status
+    operator: in
+    value: 200,201

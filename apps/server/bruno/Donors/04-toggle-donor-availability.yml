@@ -1,0 +1,31 @@
+info:
+  name: Toggle donor availability
+  type: http
+  seq: 4
+http:
+  method: PATCH
+  url: '{{baseUrl}}/donors/availability'
+  auth:
+    type: bearer
+    token: '{{token}}'
+  body:
+    type: json
+    data: |-
+      {
+        "isAvailable": true
+      }
+  headers:
+  - name: Accept
+    value: application/json
+  - name: Content-Type
+    value: application/json
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+runtime:
+  assertions:
+  - expression: res.status
+    operator: in
+    value: 200,201
