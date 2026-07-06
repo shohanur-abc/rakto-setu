@@ -1,6 +1,7 @@
 import { create } from "zustand"
 import type { UserViewDto } from "@/lib/api/generated/rakto-setu"
 import { clearAccessToken, setAccessToken } from "@/lib/auth/token"
+import { normalizeUser } from "@/lib/auth/normalize"
 
 // ===================== Types =====================
 
@@ -28,7 +29,11 @@ export const useAuthStore = create<AuthState>()((set) => ({
 
     login: (user, token) => {
         setAccessToken(token)
-        set({ user, status: "authenticated", isAuthenticated: true })
+        set({
+            user: normalizeUser(user),
+            status: "authenticated",
+            isAuthenticated: true,
+        })
     },
 
     logout: () => {
@@ -36,7 +41,7 @@ export const useAuthStore = create<AuthState>()((set) => ({
         set({ user: null, status: "unauthenticated", isAuthenticated: false })
     },
 
-    setUser: (user) => set({ user }),
+    setUser: (user) => set({ user: normalizeUser(user) }),
 
     setUnauthenticated: () =>
         set({ user: null, status: "unauthenticated", isAuthenticated: false }),

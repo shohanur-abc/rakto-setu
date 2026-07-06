@@ -1,13 +1,17 @@
 import { fileURLToPath, URL } from "node:url"
 import react from "@vitejs/plugin-react"
 import tailwindcss from "@tailwindcss/postcss"
-import { defineConfig } from "vite"
+import { defineConfig, loadEnv } from "vite"
 
-// The Nest API is proxied under the same origin in development so that the
-// httpOnly refresh cookie stays first-party. Point PROXY_TARGET at the API.
-const proxyTarget = process.env.PROXY_TARGET ?? "http://localhost:5000"
+export default defineConfig(({ mode }) => {
+    // Load `.env*` so PROXY_TARGET set there is honoured (Vite does not put it
+    // on process.env by itself). Defaults to the local Nest port (see
+    // apps/server/.env → PORT=3000); Docker overrides it to the container host.
+    const env = loadEnv(mode, process.cwd(), "")
+    const proxyTarget =
+        env.PROXY_TARGET ?? process.env.PROXY_TARGET ?? "http://localhost:3000"
 
-export default defineConfig({
+    return {
     plugins: [react()],
     css: {
         postcss: {
@@ -31,4 +35,5 @@ export default defineConfig({
             },
         },
     },
+    }
 })
