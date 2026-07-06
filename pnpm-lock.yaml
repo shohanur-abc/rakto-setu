@@ -27,6 +27,76 @@ importers:
         specifier: ^5
         version: 5.9.3
 
+  apps/client:
+    dependencies:
+      '@remixicon/react':
+        specifier: ^4.9.0
+        version: 4.9.0(react@19.2.4)
+      '@tanstack/react-query':
+        specifier: ^5.90.2
+        version: 5.101.2(react@19.2.4)
+      '@workspace/ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
+      motion:
+        specifier: ^12.42.2
+        version: 12.42.2(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      next-themes:
+        specifier: ^0.4.6
+        version: 0.4.6(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      nuqs:
+        specifier: ^2.9.0
+        version: 2.9.0(next@16.2.6(@babel/core@7.29.7)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-router-dom@7.18.1(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-router@7.18.1(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)
+      react:
+        specifier: 19.2.4
+        version: 19.2.4
+      react-dom:
+        specifier: 19.2.4
+        version: 19.2.4(react@19.2.4)
+      react-router-dom:
+        specifier: ^7.9.4
+        version: 7.18.1(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      zustand:
+        specifier: ^5.0.14
+        version: 5.0.14(@types/react@19.2.17)(immer@11.1.9)(react@19.2.4)(use-sync-external-store@1.6.0(react@19.2.4))
+    devDependencies:
+      '@tailwindcss/postcss':
+        specifier: ^4
+        version: 4.3.2
+      '@types/node':
+        specifier: ^22
+        version: 22.20.0
+      '@types/react':
+        specifier: ^19
+        version: 19.2.17
+      '@types/react-dom':
+        specifier: ^19
+        version: 19.2.3(@types/react@19.2.17)
+      '@vitejs/plugin-react':
+        specifier: ^5.1.0
+        version: 5.2.0(vite@7.3.6(@types/node@22.20.0)(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.48.0)(tsx@4.22.5)(yaml@2.9.0))
+      '@workspace/eslint-config':
+        specifier: workspace:^
+        version: link:../../packages/eslint-config
+      '@workspace/typescript-config':
+        specifier: workspace:*
+        version: link:../../packages/typescript-config
+      eslint:
+        specifier: ^9
+        version: 9.39.4(jiti@2.7.0)
+      orval:
+        specifier: ^8.19.0
+        version: 8.19.0(prettier@3.9.4)(typescript@5.9.3)
+      tailwindcss:
+        specifier: ^4
+        version: 4.3.2
+      typescript:
+        specifier: ^5
+        version: 5.9.3
+      vite:
+        specifier: ^7.1.12
+        version: 7.3.6(@types/node@22.20.0)(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.48.0)(tsx@4.22.5)(yaml@2.9.0)
+
   apps/server:
     dependencies:
       '@nestjs/common':
@@ -166,142 +236,11 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0(typescript@5.9.3)(vitest@4.1.9)
 
-  apps/spa:
-    dependencies:
-      '@remixicon/react':
-        specifier: ^4.9.0
-        version: 4.9.0(react@19.2.4)
-      '@tanstack/react-query':
-        specifier: ^5.90.2
-        version: 5.101.2(react@19.2.4)
-      '@workspace/ui':
-        specifier: workspace:*
-        version: link:../../packages/ui
-      motion:
-        specifier: ^12.42.2
-        version: 12.42.2(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
-      next-themes:
-        specifier: ^0.4.6
-        version: 0.4.6(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
-      nuqs:
-        specifier: ^2.9.0
-        version: 2.9.0(next@16.2.6(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-router-dom@7.18.1(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-router@7.18.1(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)
-      react:
-        specifier: 19.2.4
-        version: 19.2.4
-      react-dom:
-        specifier: 19.2.4
-        version: 19.2.4(react@19.2.4)
-      react-router-dom:
-        specifier: ^7.9.4
-        version: 7.18.1(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
-      zustand:
-        specifier: ^5.0.14
-        version: 5.0.14(@types/react@19.2.17)(immer@11.1.9)(react@19.2.4)(use-sync-external-store@1.6.0(react@19.2.4))
-    devDependencies:
-      '@tailwindcss/postcss':
-        specifier: ^4
-        version: 4.3.2
-      '@types/node':
-        specifier: ^22
-        version: 22.20.0
-      '@types/react':
-        specifier: ^19
-        version: 19.2.17
-      '@types/react-dom':
-        specifier: ^19
-        version: 19.2.3(@types/react@19.2.17)
-      '@vitejs/plugin-react':
-        specifier: ^5.1.0
-        version: 5.2.0(vite@7.3.6(@types/node@22.20.0)(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.48.0)(tsx@4.22.5)(yaml@2.9.0))
-      '@workspace/eslint-config':
-        specifier: workspace:^
-        version: link:../../packages/eslint-config
-      '@workspace/typescript-config':
-        specifier: workspace:*
-        version: link:../../packages/typescript-config
-      eslint:
-        specifier: ^9
-        version: 9.39.4(jiti@2.7.0)
-      orval:
-        specifier: ^8.19.0
-        version: 8.19.0(prettier@3.9.4)(typescript@5.9.3)
-      tailwindcss:
-        specifier: ^4
-        version: 4.3.2
-      typescript:
-        specifier: ^5
-        version: 5.9.3
-      vite:
-        specifier: ^7.1.12
-        version: 7.3.6(@types/node@22.20.0)(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.48.0)(tsx@4.22.5)(yaml@2.9.0)
-
-  apps/web:
-    dependencies:
-      '@remixicon/react':
-        specifier: ^4.9.0
-        version: 4.9.0(react@19.2.4)
-      '@workspace/ui':
-        specifier: workspace:*
-        version: link:../../packages/ui
-      motion:
-        specifier: ^12.42.2
-        version: 12.42.2(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
-      next:
-        specifier: 16.2.6
-        version: 16.2.6(@babel/core@7.29.7)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
-      next-themes:
-        specifier: ^0.4.6
-        version: 0.4.6(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
-      nuqs:
-        specifier: ^2.9.0
-        version: 2.9.0(next@16.2.6(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-router-dom@7.18.1(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-router@7.18.1(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)
-      react:
-        specifier: 19.2.4
-        version: 19.2.4
-      react-dom:
-        specifier: 19.2.4
-        version: 19.2.4(react@19.2.4)
-      zustand:
-        specifier: ^5.0.14
-        version: 5.0.14(@types/react@19.2.17)(immer@11.1.9)(react@19.2.4)(use-sync-external-store@1.6.0(react@19.2.4))
-    devDependencies:
-      '@tailwindcss/postcss':
-        specifier: ^4
-        version: 4.3.2
-      '@types/node':
-        specifier: ^20
-        version: 20.19.43
-      '@types/react':
-        specifier: ^19
-        version: 19.2.17
-      '@types/react-dom':
-        specifier: ^19
-        version: 19.2.3(@types/react@19.2.17)
-      '@workspace/eslint-config':
-        specifier: workspace:^
-        version: link:../../packages/eslint-config
-      '@workspace/typescript-config':
-        specifier: workspace:*
-        version: link:../../packages/typescript-config
-      eslint:
-        specifier: ^9
-        version: 9.39.4(jiti@2.7.0)
-      orval:
-        specifier: ^8.19.0
-        version: 8.19.0(prettier@3.9.4)(typescript@5.9.3)
-      typescript:
-        specifier: ^5
-        version: 5.9.3
-
   packages/eslint-config:
     devDependencies:
       '@eslint/js':
         specifier: ^9
         version: 9.39.4
-      '@next/eslint-plugin-next':
-        specifier: ^16.2.6
-        version: 16.2.10
       '@typescript-eslint/eslint-plugin':
         specifier: ^8.60.0
         version: 8.62.1(@typescript-eslint/parser@8.62.1(eslint@9.39.4(jiti@2.7.0))(typescript@5.9.3))(eslint@9.39.4(jiti@2.7.0))(typescript@5.9.3)
@@ -1413,9 +1352,6 @@ packages:
 
   '@next/env@16.2.6':
     resolution: {integrity: sha512-gd8HoHN4ufj73WmR3JmVolrpJR47ILK6LouP5xElPglaVxir6e1a7VzvTvDWkOoPXT9rkkTzyCxBu4yeZfZwcw==}
-
-  '@next/eslint-plugin-next@16.2.10':
-    resolution: {integrity: sha512-Gs8D2m21VnJeFo9qvYIIqJH94frWerWYu41BprU1pLtRVF7PCQNLiFZZ3fG+iPuj3K83Cwv/rt+msLOy8Qgu3Q==}
 
   '@next/swc-darwin-arm64@16.2.6':
     resolution: {integrity: sha512-ZJGkkcNfYgrrMkqOdZ7zoLa1TOy0qpcMfk/z4Mh/FKUz40gVO+HNQWqmLxf67Z5WB64DRp0dhEbyHfel+6sJUg==}
@@ -4086,10 +4022,6 @@ packages:
 
   fast-diff@1.3.0:
     resolution: {integrity: sha512-VxPP4NqbUjj6MaAOafWeUn2cXWLcCtljklUtZf0Ind4XQ+QPtmA0b18zZy0jIQx+ExRVCR/ZQpBmik5lXshNsw==}
-
-  fast-glob@3.3.1:
-    resolution: {integrity: sha512-kNFPyjhh5cKjrUltxs+wFx+ZkbRaxxmZ+X0ZU31SOsxCEtP9VPgtq2teZw1DebupL5GmDaNQ6yKMMVcM41iqDg==}
-    engines: {node: '>=8.6.0'}
 
   fast-glob@3.3.3:
     resolution: {integrity: sha512-7MptL8U0cqcFdzIzwOTHoilX9x5BrNqye7Z/LuC7kCMRio1EMSyqRK3BEAUD7sXRq4iT4AzTVuZdhgQ2TCvYLg==}
@@ -7741,11 +7673,8 @@ snapshots:
       '@nestjs/core': 11.1.27(@nestjs/common@11.1.27(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/platform-express@11.1.27)(reflect-metadata@0.2.2)(rxjs@7.8.2)
       reflect-metadata: 0.2.2
 
-  '@next/env@16.2.6': {}
-
-  '@next/eslint-plugin-next@16.2.10':
-    dependencies:
-      fast-glob: 3.3.1
+  '@next/env@16.2.6':
+    optional: true
 
   '@next/swc-darwin-arm64@16.2.6':
     optional: true
@@ -9021,6 +8950,7 @@ snapshots:
   '@swc/helpers@0.5.15':
     dependencies:
       tslib: 2.8.1
+    optional: true
 
   '@tailwindcss/node@4.3.2':
     dependencies:
@@ -9900,7 +9830,8 @@ snapshots:
 
   cli-width@4.1.0: {}
 
-  client-only@0.0.1: {}
+  client-only@0.0.1:
+    optional: true
 
   clone@1.0.4: {}
 
@@ -10617,14 +10548,6 @@ snapshots:
   fast-deep-equal@3.1.3: {}
 
   fast-diff@1.3.0: {}
-
-  fast-glob@3.3.1:
-    dependencies:
-      '@nodelib/fs.stat': 2.0.5
-      '@nodelib/fs.walk': 1.2.8
-      glob-parent: 5.1.2
-      merge2: 1.4.1
-      micromatch: 4.0.8
 
   fast-glob@3.3.3:
     dependencies:
@@ -11530,6 +11453,7 @@ snapshots:
     transitivePeerDependencies:
       - '@babel/core'
       - babel-plugin-macros
+    optional: true
 
   node-abort-controller@3.1.1: {}
 
@@ -11555,7 +11479,7 @@ snapshots:
       path-key: 4.0.0
       unicorn-magic: 0.3.0
 
-  nuqs@2.9.0(next@16.2.6(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-router-dom@7.18.1(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-router@7.18.1(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4):
+  nuqs@2.9.0(next@16.2.6(@babel/core@7.29.7)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-router-dom@7.18.1(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-router@7.18.1(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4):
     dependencies:
       '@standard-schema/spec': 1.0.0
       react: 19.2.4
@@ -11849,6 +11773,7 @@ snapshots:
       nanoid: 3.3.15
       picocolors: 1.1.1
       source-map-js: 1.2.1
+    optional: true
 
   postcss@8.5.16:
     dependencies:
@@ -12615,6 +12540,7 @@ snapshots:
       react: 19.2.4
     optionalDependencies:
       '@babel/core': 7.29.7
+    optional: true
 
   superagent@10.3.0:
     dependencies:

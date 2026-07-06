@@ -22,8 +22,7 @@ Turborepo + pnpm workspaces.
 ```text
 apps/
   server/   NestJS API (Prisma + PostgreSQL/NeonDB)
-  web/      Next.js app
-  spa/      Vite + React SPA
+  client/   Vite + React SPA
 packages/
   ui/                 Shared shadcn/ui component library (@workspace/ui)
   eslint-config/      Shared ESLint config
@@ -31,7 +30,7 @@ packages/
 docs/       Product spec, API spec, database schema
 ```
 
-`web` and `spa` both generate their typed API client from the server's OpenAPI spec via Orval (`api:generate`), so treat `server` as the source of truth for API contracts.
+`client` generates its typed API client from the server's OpenAPI spec via Orval (`api:generate`), so treat `server` as the source of truth for API contracts.
 
 ## Prerequisites
 
@@ -72,9 +71,21 @@ Key scripts (run with `pnpm --filter server <script>`):
 | `openapi:generate` | Build and emit the OpenAPI spec consumed by `web`/`spa` |
 | `test` / `test:e2e` | Unit / e2e tests (Vitest) |
 
-## Web apps (`apps/web`, `apps/spa`)
+## Web app (`apps/client`)
 
-- `web` — Next.js app.
-- `spa` — Vite + React SPA.
+Vite + React SPA. Shares the `@workspace/ui` component package and pulls its API client from the server via `pnpm api:generate`.
 
-Both share the `@workspace/ui` component package and pull their API client from the server via `pnpm api:generate`.
+## Running with Docker
+
+The whole stack (API + SPA dev server) runs with a single command — no local Node/pnpm setup required:
+
+```bash
+docker compose up --build
+```
+
+This starts two services, networked together:
+
+- **server** — built from [`apps/server/Dockerfile`](./apps/server/Dockerfile), runs the compiled Nest app on port `5000` inside the container (published as `http://localhost:5050` on the host). Reads its environment from `apps/server/.env`, so make sure `DATABASE_URL`/`DIRECT_URL` point at a real Postgres/Neon instance before starting.
+- **client** — built from [`apps/client/Dockerfile`](./apps/client/Dockerfile), runs the Vite dev server on `http://localhost:5173`. Its dev-server proxy (`/api/*`) is pointed at the `server` container via the `PROXY_TARGET` env var (`http://server:5000`), so the SPA talks to the API over the Docker network exactly like it would to `localhost:5000` in local dev — no CORS/cookie issues.
+
+Both Dockerfiles share a BuildKit cache mount for the pnpm store, so rebuilds after a dependency change only re-download what's new. Open `http://localhost:5173` once both containers are up.
