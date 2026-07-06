@@ -1,0 +1,41 @@
+{
+  "name": "spa",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "lint": "eslint",
+    "format": "prettier --write \"src/**/*.{ts,tsx}\"",
+    "typecheck": "tsc --noEmit",
+    "api:generate": "pnpm --filter server openapi:generate && orval --config orval.config.ts"
+  },
+  "dependencies": {
+    "@remixicon/react": "^4.9.0",
+    "@tanstack/react-query": "^5.90.2",
+    "@workspace/ui": "workspace:*",
+    "motion": "^12.42.2",
+    "next-themes": "^0.4.6",
+    "nuqs": "^2.9.0",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "react-router-dom": "^7.9.4",
+    "zustand": "^5.0.14"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^22",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@vitejs/plugin-react": "^5.1.0",
+    "@workspace/eslint-config": "workspace:^",
+    "@workspace/typescript-config": "workspace:*",
+    "eslint": "^9",
+    "orval": "^8.19.0",
+    "tailwindcss": "^4",
+    "typescript": "^5",
+    "vite": "^7.1.12"
+  }
+}
