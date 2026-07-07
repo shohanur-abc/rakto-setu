@@ -2,6 +2,7 @@ import { Logger, ValidationPipe } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import cookieParser from 'cookie-parser';
 import { AppModule } from './app.module';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { PrismaExceptionFilter } from './common/filters/prisma-exception.filter';
@@ -14,7 +15,17 @@ async function bootstrap() {
     const logger = new Logger('Bootstrap');
 
     app.setGlobalPrefix('api/v1');
-    app.enableCors();
+    app.use(cookieParser());
+    const corsOrigins = (process.env.CORS_ORIGINS ?? '')
+        .split(',')
+        .map((value) => value.trim())
+        .filter(Boolean);
+    app.enableCors({
+        // Reflect the request origin when no allowlist is configured (dev),
+        // which is required for credentialed (cookie) cross-origin requests.
+        origin: corsOrigins.length > 0 ? corsOrigins : true,
+        credentials: true,
+    });
     app.enableShutdownHooks();
     app.useGlobalPipes(
         new ValidationPipe({

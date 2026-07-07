@@ -8,7 +8,7 @@ import { ChangePasswordDto, ForgotPasswordDto, LoginDto, LogoutDto, OtpRequestDt
 import { AuthUser } from '../common/types/auth-user';
 import { parseBloodGroup } from '../common/utils/blood-group';
 import { createOtpCode, hashLookupToken, hashPassword, verifyPassword, } from '../common/utils/crypto';
-import { addMinutes, jwtExpiresAt } from '../common/utils/date';
+import { addDays, addMinutes, jwtExpiresAt } from '../common/utils/date';
 import { toUserView } from '../users/user.presenter';
 
 @Injectable()
@@ -86,7 +86,68 @@ export class AuthService {
         return {
             user: toUserView(user),
             token: await this.createSession(user.id, user.phone, user.role),
+            refreshToken: await this.createRefreshToken(user.id),
         };
+    }
+
+
+    // ---------------- Refresh Session ----------------
+
+    async refresh(rawToken: string | undefined) {
+        if (!rawToken) {
+            throw new UnauthorizedException('Refresh token is required');
+        }
+
+        const stored = await this.prisma.authToken.findFirst({
+            where: {
+                tokenHash: hashLookupToken(rawToken),
+                purpose: AuthTokenPurpose.REFRESH,
+                usedAt: null,
+                expiresAt: { gt: new Date() },
+            },
+        });
+
+        if (!stored?.userId) {
+            throw new UnauthorizedException('Invalid or expired refresh token');
+        }
+
+        const user = await this.prisma.user.findUnique({
+            where: { id: stored.userId },
+        });
+
+        if (
+            !user ||
+            user.status === UserStatus.SUSPENDED ||
+            user.status === UserStatus.DELETED
+        ) {
+            throw new UnauthorizedException('Account is not active');
+        }
+
+        // Rotate: burn the presented refresh token, issue a fresh pair.
+        await this.prisma.authToken.update({
+            where: { id: stored.id },
+            data: { usedAt: new Date() },
+        });
+
+        return {
+            user: toUserView(user),
+            token: await this.createSession(user.id, user.phone, user.role),
+            refreshToken: await this.createRefreshToken(user.id),
+        };
+    }
+
+
+    // ---------------- Revoke Refresh Tokens ----------------
+
+    async revokeRefreshTokens(userId: string) {
+        await this.prisma.authToken.updateMany({
+            where: {
+                userId,
+                purpose: AuthTokenPurpose.REFRESH,
+                usedAt: null,
+            },
+            data: { usedAt: new Date() },
+        });
     }
 
 
@@ -232,6 +293,27 @@ export class AuthService {
             { sub: userId, phone, role, jti },
             { expiresIn: expiresIn as JwtSignOptions['expiresIn'] },
         );
+    }
+
+
+    // ---------------- Create Refresh Token ----------------
+
+    private async createRefreshToken(userId: string) {
+        const rawToken = `${randomUUID()}.${randomUUID()}`;
+        const days = Number(
+            this.config.get<string>('REFRESH_EXPIRES_DAYS') ?? '30',
+        );
+
+        await this.prisma.authToken.create({
+            data: {
+                userId,
+                tokenHash: hashLookupToken(rawToken),
+                purpose: AuthTokenPurpose.REFRESH,
+                expiresAt: addDays(new Date(), Number.isFinite(days) ? days : 30),
+            },
+        });
+
+        return rawToken;
     }
 
 

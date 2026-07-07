@@ -1,6 +1,7 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Req, Res } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Throttle } from '@nestjs/throttler';
+import type { Request, Response } from 'express';
 import { AuthService } from './auth.service';
 import {
     ChangePasswordDto,
@@ -17,6 +18,17 @@ import { CurrentUser } from '../common/decorators/current-user.decorator';
 import { Public } from '../common/decorators/public.decorator';
 import type { AuthUser } from '../common/types/auth-user';
 import { AuthLoginViewDto, UserViewDto } from '../common/dto/api-response.dto';
+
+const REFRESH_COOKIE = 'rakto-setu.refresh';
+
+const refreshCookieOptions = () => ({
+    httpOnly: true,
+    sameSite: 'lax' as const,
+    secure: process.env.NODE_ENV === 'production',
+    path: '/',
+    maxAge:
+        Number(process.env.REFRESH_EXPIRES_DAYS ?? '30') * 24 * 60 * 60 * 1000,
+});
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -53,8 +65,40 @@ export class AuthController {
         tooManyRequests: true,
         responseType: AuthLoginViewDto,
     })
-    login(@Body() dto: LoginDto) {
-        return this.authService.login(dto);
+    async login(
+        @Body() dto: LoginDto,
+        @Res({ passthrough: true }) res: Response,
+    ) {
+        const { refreshToken, ...payload } = await this.authService.login(dto);
+        res.cookie(REFRESH_COOKIE, refreshToken, refreshCookieOptions());
+
+        return payload;
+    }
+
+
+    // ---------------- Refresh Session ----------------
+
+    @Public()
+    @Post('refresh')
+    @Throttle({ default: { limit: 30, ttl: 60_000 } })
+    @ApiRoute({
+        summary: 'Exchange a refresh cookie for a new access token',
+        status: 201,
+        auth: false,
+        tooManyRequests: true,
+        responseType: AuthLoginViewDto,
+    })
+    async refresh(
+        @Req() req: Request,
+        @Res({ passthrough: true }) res: Response,
+    ) {
+        const cookies = req.cookies as Record<string, string> | undefined;
+        const { refreshToken, ...payload } = await this.authService.refresh(
+            cookies?.[REFRESH_COOKIE],
+        );
+        res.cookie(REFRESH_COOKIE, refreshToken, refreshCookieOptions());
+
+        return payload;
     }
 
 
@@ -62,8 +106,16 @@ export class AuthController {
 
     @Post('logout')
     @ApiRoute({ summary: 'Invalidate current session', status: 201 })
-    logout(@CurrentUser() user: AuthUser, @Body() dto: LogoutDto) {
-        return this.authService.logout(user, dto);
+    async logout(
+        @CurrentUser() user: AuthUser,
+        @Body() dto: LogoutDto,
+        @Res({ passthrough: true }) res: Response,
+    ) {
+        const result = await this.authService.logout(user, dto);
+        await this.authService.revokeRefreshTokens(user.id);
+        res.clearCookie(REFRESH_COOKIE, { path: '/' });
+
+        return result;
     }
 
 
