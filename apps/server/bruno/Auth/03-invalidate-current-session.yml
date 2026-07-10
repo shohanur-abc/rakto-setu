@@ -1,0 +1,41 @@
+info:
+  name: Invalidate current session
+  type: http
+  seq: 4
+
+http:
+  method: POST
+  url: "{{baseUrl}}/auth/logout"
+  headers:
+    - name: Accept
+      value: application/json
+    - name: Content-Type
+      value: application/json
+  body:
+    type: json
+    data: |-
+      {
+        "allSessions": false
+      }
+  auth:
+    type: bearer
+    token: "{{user.token}}"
+
+runtime:
+  scripts:
+    - type: after-response
+      code: |-
+        if (res.body?.data?.loggedOut) {
+          bru.setVar('user', null)
+          console.log('saved user data as null')
+        }
+  assertions:
+    - expression: res.status
+      operator: in
+      value: 200,201
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

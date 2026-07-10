@@ -1,0 +1,35 @@
+info:
+  name: Cancel own accepted blood request
+  type: http
+  seq: 9
+http:
+  method: POST
+  url: '{{baseUrl}}/donors/requests/:id/cancel'
+  params:
+  - name: id
+    value: '{{requestId}}'
+    type: path
+  auth:
+    type: bearer
+    token: '{{donor.token}}'
+  body:
+    type: json
+    data: |-
+      {
+        "cancelReason": "I am no longer available at the requested time."
+      }
+  headers:
+  - name: Accept
+    value: application/json
+  - name: Content-Type
+    value: application/json
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+runtime:
+  assertions:
+  - expression: res.status
+    operator: in
+    value: 200,201

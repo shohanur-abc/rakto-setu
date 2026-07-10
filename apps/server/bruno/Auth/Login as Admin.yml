@@ -1,0 +1,43 @@
+info:
+  name: Login as Admin
+  type: http
+  seq: 11
+
+http:
+  method: POST
+  url: "{{baseUrl}}/auth/login"
+  headers:
+    - name: Accept
+      value: application/json
+    - name: Content-Type
+      value: application/json
+  body:
+    type: json
+    data: |
+      {
+        "phone": "+8801700000000",
+        "password": "AdminPass123!"
+      }
+
+runtime:
+  scripts:
+    - type: after-response
+      code: |-
+        const data = res.body?.data
+        const token = {token: data?.token}
+
+        bru.setVar('admin', 
+          Object.assign(req.body, data?.user, token)
+        )
+
+        console.log('saved admin data in admin object')
+  assertions:
+    - expression: res.status
+      operator: in
+      value: 200,201
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

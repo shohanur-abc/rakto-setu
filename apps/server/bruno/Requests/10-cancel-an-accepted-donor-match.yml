@@ -1,0 +1,38 @@
+info:
+  name: Cancel an accepted donor match
+  type: http
+  seq: 10
+http:
+  method: POST
+  url: '{{baseUrl}}/requests/:id/matches/:donorId/cancel'
+  params:
+  - name: id
+    value: '{{requestId}}'
+    type: path
+  - name: donorId
+    value: '{{donorId}}'
+    type: path
+  auth:
+    type: bearer
+    token: '{{recipient.token}}'
+  body:
+    type: json
+    data: |-
+      {
+        "cancelReason": "Patient arranged blood from another donor."
+      }
+  headers:
+  - name: Accept
+    value: application/json
+  - name: Content-Type
+    value: application/json
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+runtime:
+  assertions:
+  - expression: res.status
+    operator: in
+    value: 200,201

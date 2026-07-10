@@ -1,0 +1,44 @@
+info:
+  name: Authenticate and receive a JWT
+  type: http
+  seq: 2
+
+http:
+  method: POST
+  url: "{{baseUrl}}/auth/login"
+  headers:
+    - name: Accept
+      value: application/json
+    - name: Content-Type
+      value: application/json
+  body:
+    type: json
+    data: |-
+      {
+        "phone": "{{user.phone}}",
+        "password": "{{user.password}}"
+      }
+
+runtime:
+  scripts:
+    - type: after-response
+      code: |-
+        const token = res.body?.data?.token;
+
+
+        if (token) {
+          const user = bru.getVar("user") ?? req.body?.data?.user;
+          user.token = token;
+          bru.setVar("user", user);
+          console.log('saved token as user.token')
+        }
+  assertions:
+    - expression: res.status
+      operator: in
+      value: 200,201
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

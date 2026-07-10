@@ -1,0 +1,37 @@
+info:
+  name: Check Phone or Email Availability
+  type: http
+  seq: 3
+
+http:
+  method: POST
+  url: "{{baseUrl}}/auth/check-availability"
+  headers:
+    - name: Accept
+      value: application/json
+    - name: Content-Type
+      value: application/json
+  body:
+    type: json
+    data: |-
+      {
+        "phone": "+8801733336235",
+        "email": "donor@example.com"
+      }
+
+runtime:
+  scripts:
+    - type: after-response
+      code: |-
+        bru.setVar('user', req.body)
+        console.log('saved request user data in user object')
+  assertions:
+    - expression: res.status
+      operator: in
+      value: 200,201
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

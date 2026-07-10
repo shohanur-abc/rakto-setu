@@ -1,0 +1,43 @@
+info:
+  name: Register current user as a donor
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{baseUrl}}/donors/register"
+  headers:
+    - name: Accept
+      value: application/json
+    - name: Content-Type
+      value: application/json
+  body:
+    type: json
+    data: |-
+      {
+        "bloodGroup": "AB+",
+        "lastDonationDate": "2026-01-10",
+        "notes": "Doesn't Prefers any calls"
+      }
+  auth:
+    type: bearer
+    token: "{{donor.token}}"
+
+runtime:
+  scripts:
+    - type: after-response
+      code: |-
+        if (res.body?.success){
+          const donor = bru.getVar('donor')
+          bru.setVar('donor',Object.assign(donor, res.body?.data))
+        }
+  assertions:
+    - expression: res.status
+      operator: in
+      value: 200,201
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

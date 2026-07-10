@@ -1,0 +1,33 @@
+info:
+  name: Create an announcement
+  type: http
+  seq: 15
+http:
+  method: POST
+  url: '{{baseUrl}}/admin/announcements'
+  auth:
+    type: bearer
+    token: '{{admin.token}}'
+  body:
+    type: json
+    data: |-
+      {
+        "title": "Blood donation camp",
+        "body": "A local donation camp will be held this Friday.",
+        "isPublished": true
+      }
+  headers:
+  - name: Accept
+    value: application/json
+  - name: Content-Type
+    value: application/json
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+runtime:
+  assertions:
+  - expression: res.status
+    operator: in
+    value: 200,201

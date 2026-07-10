@@ -1,0 +1,27 @@
+info:
+  name: View a published blood request
+  type: http
+  seq: 2
+
+http:
+  method: GET
+  url: "{{baseUrl}}/requests/public/:id"
+  headers:
+    - name: Accept
+      value: application/json
+  params:
+    - name: id
+      value: 3186c712-6270-4ed3-be8b-5b882ca34f72
+      type: path
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: in
+      value: 200,201
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

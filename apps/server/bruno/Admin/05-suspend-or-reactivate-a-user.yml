@@ -1,0 +1,35 @@
+info:
+  name: Suspend or reactivate a user
+  type: http
+  seq: 5
+http:
+  method: PATCH
+  url: '{{baseUrl}}/admin/users/:id/status'
+  params:
+  - name: id
+    value: '{{userId}}'
+    type: path
+  auth:
+    type: bearer
+    token: '{{admin.token}}'
+  body:
+    type: json
+    data: |-
+      {
+        "status": "suspended"
+      }
+  headers:
+  - name: Accept
+    value: application/json
+  - name: Content-Type
+    value: application/json
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+runtime:
+  assertions:
+  - expression: res.status
+    operator: in
+    value: 200,201

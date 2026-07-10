@@ -1,0 +1,37 @@
+info:
+  name: Update own profile
+  type: http
+  seq: 2
+
+http:
+  method: PUT
+  url: "{{baseUrl}}/users/profile"
+  headers:
+    - name: Accept
+      value: application/json
+    - name: Content-Type
+      value: application/json
+  body:
+    type: json
+    data: |-
+      {
+        "fullName": "Nut Boltu",
+        "email": "valo@example.com",
+        "bloodGroup": "A+",
+        "preferredLanguage": "bn"
+      }
+  auth:
+    type: bearer
+    token: "{{user.token}}"
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: in
+      value: 200,201
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

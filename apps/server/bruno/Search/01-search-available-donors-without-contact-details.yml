@@ -1,0 +1,38 @@
+info:
+  name: Search available donors without contact details
+  type: http
+  seq: 1
+http:
+  method: GET
+  url: '{{baseUrl}}/search/donors'
+  params:
+  - name: page
+    value: '{{page}}'
+    type: query
+    description: Page number, starting at 1
+  - name: limit
+    value: '{{limit}}'
+    type: query
+    description: Items per page, capped at 100
+  - name: bloodGroup
+    value: '{{bloodGroup}}'
+    type: query
+    description: Blood group to search for
+  - name: locationId
+    value: '{{locationId}}'
+    type: query
+    description: Location filter
+  auth: none
+  headers:
+  - name: Accept
+    value: application/json
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+runtime:
+  assertions:
+  - expression: res.status
+    operator: in
+    value: 200,201

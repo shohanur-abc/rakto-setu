@@ -1,0 +1,43 @@
+info:
+  name: Request an OTP code
+  type: http
+  seq: 5
+
+http:
+  method: POST
+  url: "{{baseUrl}}/auth/otp/request"
+  headers:
+    - name: Accept
+      value: application/json
+    - name: Content-Type
+      value: application/json
+  body:
+    type: json
+    data: |-
+      {
+        "phone": "{{user.phone}}"
+      }
+
+runtime:
+  scripts:
+    - type: after-response
+      code: |-
+        const otp = res.body?.data?.devCode;
+
+
+        if (otp) {
+          const user = bru.getVar("user");
+          user.otp = otp;
+          bru.setVar("user", user);
+          console.log('saved otp as user.otp')
+        }
+  assertions:
+    - expression: res.status
+      operator: in
+      value: 200,201
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

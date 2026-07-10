@@ -1,0 +1,32 @@
+info:
+  name: Verify OTP and activate account
+  type: http
+  seq: 6
+
+http:
+  method: POST
+  url: "{{baseUrl}}/auth/otp/verify"
+  headers:
+    - name: Accept
+      value: application/json
+    - name: Content-Type
+      value: application/json
+  body:
+    type: json
+    data: |-
+      {
+        "phone": "{{user.phone}}",
+        "code": "{{user.otp}}"
+      }
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: in
+      value: 200,201
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

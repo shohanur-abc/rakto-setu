@@ -1,0 +1,23 @@
+info:
+  name: View own accepted blood requests
+  type: http
+  seq: 11
+http:
+  method: GET
+  url: '{{baseUrl}}/donors/accepted-requests'
+  auth:
+    type: bearer
+    token: '{{donor.token}}'
+  headers:
+  - name: Accept
+    value: application/json
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+runtime:
+  assertions:
+  - expression: res.status
+    operator: in
+    value: 200,201

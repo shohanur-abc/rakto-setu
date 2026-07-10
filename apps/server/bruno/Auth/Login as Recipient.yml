@@ -1,0 +1,42 @@
+info:
+  name: Login as Recipient
+  type: http
+  seq: 12
+
+http:
+  method: POST
+  url: "{{baseUrl}}/auth/login"
+  headers:
+    - name: Accept
+      value: application/json
+    - name: Content-Type
+      value: application/json
+  body:
+    type: json
+    data: |
+      {
+        "phone": "+8801990000092",
+        "password": "NewVeryStrongPass123!"
+      }
+
+runtime:
+  scripts:
+    - type: after-response
+      code: |-
+        const data = res.body?.data
+        const token = {token: data?.token}
+
+        bru.setVar('recipient', 
+          Object.assign(req.body, data?.user, token)
+        )
+        console.log('saved recipient data in recipient object')
+  assertions:
+    - expression: res.status
+      operator: in
+      value: 200,201
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

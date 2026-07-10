@@ -1,0 +1,40 @@
+{
+  "name": "web",
+  "version": "0.0.1",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "api:generate": "orval --config ../../packages/api-client/orval.config.ts",
+    "dev": "next dev --webpack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "typecheck": "next typegen && tsc --noEmit"
+  },
+  "dependencies": {
+    "@remixicon/react": "^4.9.0",
+    "@tanstack/react-query": "^5.101.2",
+    "@workspace/ui": "workspace:*",
+    "@workspace/i18n": "workspace:*",
+    "api-client": "workspace:*",
+    "axios": "^1.18.1",
+    "motion": "^12.42.2",
+    "next": "catalog:",
+    "next-themes": "^0.4.6",
+    "nuqs": "^2.9.0",
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "zustand": "^5.0.14"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@workspace/eslint-config": "workspace:*",
+    "@workspace/typescript-config": "workspace:*",
+    "eslint": "^9",
+    "orval": "^8.19.0",
+    "typescript": "^5.9.3"
+  }
+}

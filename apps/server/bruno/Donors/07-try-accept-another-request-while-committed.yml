@@ -1,0 +1,27 @@
+info:
+  name: Try accept another request while committed
+  type: http
+  seq: 7
+http:
+  method: POST
+  url: '{{baseUrl}}/donors/requests/:id/accept'
+  params:
+  - name: id
+    value: '{{otherRequestId}}'
+    type: path
+  auth:
+    type: bearer
+    token: '{{donor.token}}'
+  headers:
+  - name: Accept
+    value: application/json
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+runtime:
+  assertions:
+  - expression: res.status
+    operator: eq
+    value: 400

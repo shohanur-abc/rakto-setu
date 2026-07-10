@@ -1,0 +1,42 @@
+info:
+  name: Login as Donor
+  type: http
+  seq: 13
+
+http:
+  method: POST
+  url: "{{baseUrl}}/auth/login"
+  headers:
+    - name: Accept
+      value: application/json
+    - name: Content-Type
+      value: application/json
+  body:
+    type: json
+    data: |
+      {
+        "phone": "+8801733336235",
+        "password": "donorPass"
+      }
+
+runtime:
+  scripts:
+    - type: after-response
+      code: |-
+        const data = res.body?.data
+        const token = {token: data?.token}
+
+        bru.setVar('donor', 
+          Object.assign(req.body, data?.user, token)
+        )
+        console.log('saved donor data in donor object')
+  assertions:
+    - expression: res.status
+      operator: in
+      value: 200,201
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

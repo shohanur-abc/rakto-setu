@@ -1,0 +1,35 @@
+info:
+  name: Assign a donor to a request
+  type: http
+  seq: 11
+http:
+  method: PATCH
+  url: '{{baseUrl}}/admin/requests/:id/assign'
+  params:
+  - name: id
+    value: '{{requestId}}'
+    type: path
+  auth:
+    type: bearer
+    token: '{{admin.token}}'
+  body:
+    type: json
+    data: |-
+      {
+        "donorId": "f45f84c9-2685-4c17-bf6d-86de9879a33a"
+      }
+  headers:
+  - name: Accept
+    value: application/json
+  - name: Content-Type
+    value: application/json
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+runtime:
+  assertions:
+  - expression: res.status
+    operator: in
+    value: 200,201
